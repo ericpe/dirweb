@@ -1,0 +1,28 @@
+#SHELL=/bin/bash
+
+#ADD_CLOBBER+=libpuzzle.a libpuzzle/libpuzzle-0.11 sqlite/sqlite3.o
+#ADD_CLEAN+=picchk.db3
+#ADD_DEPS+=libpuzzle.a .build/sqlite3.o
+
+#libpuzzle.a:
+#	@rm -rf libpuzzle/libpuzzle-0.11
+#	@tar zxvf ./libpuzzle/libpuzzle-0.11.tar.gz -C ./libpuzzle
+#	@cd libpuzzle/libpuzzle-0.11 && ./configure --disable-shared && make LDFLAGS+=-lm
+#	@cp libpuzzle/libpuzzle-0.11/src/.libs/libpuzzle.a .
+#	@rm -rf libpuzzle/libpuzzle-0.11
+
+#.build/sqlite3.o:
+#	@cd sqlite3 && make
+#	@cp sqlite3/sqlite3.o .build
+
+.PHONY:	test
+test: $(exe)
+	${AT} echo "testing ${exe}"
+
+.PHONY:	client
+client:
+	${at} curl -v --raw http://localhost:3127
+
+
+
+# vim: noet

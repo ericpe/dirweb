@@ -1,0 +1,20 @@
+#BOOST_LIB_DIR = /usr/lib
+#LNK_LIBS = ${BOOST_LIB_DIR}/libboost_thread.a \
+           ${BOOST_LIB_DIR}/libboost_filesystem.a \
+           ${BOOST_LIB_DIR}/libboost_system.a \
+           ${BOOST_LIB_DIR}/libboost_regex.a \
+           ${BOOST_LIB_DIR}/libboost_log_setup.a \
+           ${BOOST_LIB_DIR}/libboost_log.a \
+           -lsqlite3 \
+           -lpthread \
+           -ldl \
+           -lrt
+
+EXTRA_FILES=logfile.log
+#CXXFLAGS=-std=c++0x
+#CXXFLAGS=-std=c++11
+
+#USER_OPTS=
+#USER_LDOPTS=
+
+# vim: noet
