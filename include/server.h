@@ -14,8 +14,6 @@ class server
 {
   public:
 
-    const int16_t default_port = 3127; // arbitrary number
-
     server();
     server(int16_t port);
     virtual ~server();

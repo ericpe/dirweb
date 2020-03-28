@@ -3,13 +3,17 @@
 #include <getopt.h>
 #include "aixlog.hpp"
 #include <exception>
+#include <sstream>
+
+const uint16_t config::default_port = 3127;
+const char * config::default_root = "./";
 
 config::config()
+  : mPort(config::default_port)
 {}
 
 config::~config()
 {}
-
 
 bool config::parse(int argc, char**argv)
 {
@@ -61,5 +65,21 @@ bool config::parse(int argc, char**argv)
 
 void config::dump(std::ostream& os)
 {
-  os << "Port: " << mPort << std::endl;
+  os << "+--------------------------------------" << std::endl
+     << "| Config " << std::endl
+     << "+--------------------------------------" << std::endl
+     << "| Port: " << mPort << std::endl
+     << "| root: " << default_root << std::endl
+     << "+--------------------------------------" << std::endl;
 }
+
+std::string config::tostring()
+{
+  std::ostringstream os;
+
+  dump(os);
+
+  return os.str();
+}
+
+

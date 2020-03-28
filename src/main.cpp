@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  cfg.dump();
+  LOG(INFO) << cfg.tostring();
 
   server srv;
 

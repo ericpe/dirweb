@@ -7,8 +7,11 @@
 #include "config.h"
 #include "myexception.h"
 
+// we want to initialize the port to something.  if we use 0, then we need to 
+// put all kinds of checks in.  if we put in the default port from config, it
+// will work without checks
 server::server()
-  : mSocket(-1),mPort(server::default_port)
+  : mSocket(-1),mPort(config::default_port)
 { }
 
 server::server(int16_t port)

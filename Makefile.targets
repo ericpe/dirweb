@@ -18,6 +18,7 @@
 .PHONY:	test
 test: $(exe)
 	${AT} echo "testing ${exe}"
+	${AT} ./${exe} -p 3127
 
 .PHONY:	client
 client:
