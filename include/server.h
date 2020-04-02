@@ -13,10 +13,25 @@
 class server
 {
   public:
+    class connection
+    {
+      public:
+        connection(int socket, struct sockaddr_in sa_client)
+          : mSocket(socket), mClient(sa_client)
+        {}
+
+        connection(const connection&) = default;
+        connection& operator=(const connection&) = default;
+        ~connection() = default;
+
+        int mSocket;
+        struct sockaddr_in mClient;
+
+    };
 
     server();
     server(int16_t port);
-    virtual ~server();
+    virtual ~server() = default;
 
     void run();
 
@@ -24,6 +39,7 @@ class server
     uint16_t getPort()const { return mPort; }
 
   protected:
+    void service(const connection& conn);
     int create();
 
   private:

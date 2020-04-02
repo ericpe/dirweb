@@ -22,7 +22,7 @@ test: $(exe)
 
 .PHONY:	client
 client:
-	${at} curl -v --raw http://localhost:3127
+	${at} curl -v --raw http://localhost:3127/somepath
 
 
 
