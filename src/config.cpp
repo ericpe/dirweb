@@ -9,7 +9,7 @@ const uint16_t config::default_port = 3127;
 const char * config::default_root = "./";
 
 config::config()
-  : mPort(config::default_port)
+  : mPort(config::default_port),mRoot(config::default_root)
 {}
 
 config::~config()
@@ -19,6 +19,7 @@ bool config::parse(int argc, char**argv)
 {
   static struct option long_options[] = {
     { "port", required_argument, 0, 'p' },
+    { "root", required_argument, 0, 'r' },
     { 0, 0, 0, 0}
   };
 
@@ -27,7 +28,7 @@ bool config::parse(int argc, char**argv)
 
   // the '+' in the opt string sets POSIXLY_CORRECT, which means options
   // parsing will stop with the first non-option
-  while((c = getopt_long(argc, argv, "+p:", long_options, &index)) != -1)
+  while((c = getopt_long(argc, argv, "+p:r:", long_options, &index)) != -1)
   {
     switch (c)
     {
@@ -47,6 +48,10 @@ bool config::parse(int argc, char**argv)
           LOG(ERROR) << "Unknown error specifying port [" << optarg << "]" << std::endl;
           err=true;
         }
+        break;
+      case 'r':
+        LOG(TRACE) << "Parsed cmdline root [" << optarg << "]" << std::endl;
+        mRoot=optarg;
         break;
       case '?':
         // an error happened, but getopt_long will print an error msg for us
@@ -69,7 +74,7 @@ void config::dump(std::ostream& os)
      << "| Config " << std::endl
      << "+--------------------------------------" << std::endl
      << "| Port: " << mPort << std::endl
-     << "| root: " << default_root << std::endl
+     << "| root: " << mRoot << std::endl
      << "+--------------------------------------" << std::endl;
 }
 

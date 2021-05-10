@@ -72,7 +72,10 @@ class err_string
 
 };
 
-std::ostream& operator<<(std::ostream& os, const err_string& err)
+// be inline because you get that for free when you define a method body in a
+// header file.  Since this is a friend function and not part of the class,
+// you have to be explicit
+inline std::ostream& operator<<(std::ostream& os, const err_string& err)
 {
   os << "Error [" << err.getErrno() << "]: " << err.getErrMsg();
   return os;

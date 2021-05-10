@@ -21,6 +21,7 @@ class config
     bool parse(int argc, char**argv);
 
     uint16_t getPort()const {return mPort;}
+    const std::string& getRoot()const {return mRoot;}
 
     void dump(std::ostream& os=std::cout);
 
@@ -28,6 +29,7 @@ class config
 
   private:
     uint32_t mPort;
+    std::string mRoot;
 
 };
 

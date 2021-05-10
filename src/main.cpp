@@ -15,14 +15,16 @@
 
 int main(int argc, char **argv)
 {
+  AixLog::Severity severity = AixLog::Severity::trace;
+
   AixLog::Log::init(
     {
       // Log to the console
-      std::make_shared<AixLog::SinkCout> (AixLog::Severity::trace,
+      std::make_shared<AixLog::SinkCout> (severity,
                                           AixLog::Type::all,
                                           "%Y-%m-%d %H:%M:%S.#ms #file(#line) [#severity]: #message"),
       // Log everything to logfile.log
-      std::make_shared<AixLog::SinkFile> (AixLog::Severity::trace,
+      std::make_shared<AixLog::SinkFile> (severity,
                                           AixLog::Type::all,
                                           "logfile.log",
                                           "%Y-%m-%d %H:%M:%S.#ms #file(#line) [#severity]: #message")
@@ -44,7 +46,7 @@ int main(int argc, char **argv)
 
   server srv;
 
-  srv.setPort(cfg.getPort());
+  srv.setPort(cfg.getPort()).setRoot(cfg.getRoot());
 
   LOG(INFO) << "Starting server" << std::endl;
 

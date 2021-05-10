@@ -115,6 +115,8 @@
 #define SPECIAL AixLog::Type::special
 #define TIMESTAMP AixLog::Timestamp(std::chrono::system_clock::now())
 
+// usage: WOULDLOG(SEVERITY)
+#define WOULDLOG(SEVERITY_) AixLog::Log::instance().wouldLog(static_cast<AixLog::Severity>(SEVERITY_))
 
 /**
  * @brief
@@ -550,6 +552,21 @@ public:
 		}
 	}
 
+  bool wouldLog(Severity logSeverity)
+  {
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    for (const auto& sink: log_sinks_)
+    {
+      if (
+          (metadata_.type == Type::all) ||
+          (sink->get_type() == Type::all) ||
+          (metadata_.type == sink->get_type())
+      )
+        if (metadata_.severity >= sink->severity)
+          return true;
+    }
+    return false;
+  }
 
 protected:
 	Log() noexcept

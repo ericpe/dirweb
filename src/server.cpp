@@ -8,8 +8,9 @@
 #include "myexception.h"
 #include "err_string.h"
 #include "eputils.h"
+#include "http_request.h"
 
-// we want to initialize the port to something.  if we use 0, then we need to 
+// we want to initialize the port to something.  if we use 0, then we need to
 // put all kinds of checks in.  if we put in the default port from config, it
 // will work without checks
 server::server()
@@ -67,6 +68,7 @@ void server::run()
 
 void server::service(const server::connection& conn)
 {
+  /*
   uint8_t buff[4096];
   ssize_t sz;
 
@@ -80,8 +82,11 @@ void server::service(const server::connection& conn)
 
   LOG(TRACE) << "request size " << sz << " (" << asHex(sz) << ")" << std::endl;
   hexdump(buff, (sz > 128 ? sz : 128));
-
   std::cout << std::endl << "---" << std::endl << buff << "---" << std::endl;
+*/
+  http_request req;
+
+  req.read(conn.mSocket);
 
   // for now, just send back a 404
 
@@ -129,7 +134,11 @@ int server::create()
     //perror(strerror(errno));
   }
 
-  setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR,&num,sizeof(num));
+  if(setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR,&num,sizeof(num)) != 0 )
+  {
+    err_string err;
+    throwException(err.getErrMsg("setsockopt: "));
+  }
 
   memset(&addr,0,sizeof(addr));
   addr.sin_family=AF_INET;

@@ -6,7 +6,6 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <string.h>
-#include <errno.h>
 #include <string>
 #include <netdb.h>
 
@@ -35,8 +34,11 @@ class server
 
     void run();
 
-    void setPort(uint16_t port) { mPort=port; }
+    server& setPort(uint16_t port) { mPort=port; return *this; }
     uint16_t getPort()const { return mPort; }
+
+    server& setRoot(const std::string& root) {mRoot=root; return *this; }
+    const std::string& getRoot()const {return mRoot;}
 
   protected:
     void service(const connection& conn);
@@ -48,6 +50,7 @@ class server
     // with.  Sockets are old and are "int"s
     int mSocket;
     int16_t mPort;
+    std::string mRoot;
 };
 
 #endif
